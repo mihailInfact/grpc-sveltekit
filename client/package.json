@@ -17,6 +17,8 @@
 		"test:e2e": "playwright test"
 	},
 	"devDependencies": {
+		"@bufbuild/buf": "^1.64.0",
+		"@bufbuild/protoc-gen-es": "^2.11.0",
 		"@eslint/compat": "^2.0.1",
 		"@eslint/js": "^9.39.2",
 		"@playwright/test": "^1.58.0",
@@ -46,7 +48,9 @@
 		"vitest-browser-svelte": "^2.0.2"
 	},
 	"dependencies": {
+		"@bufbuild/protobuf": "^2.11.0",
 		"@connectrpc/connect": "^2.1.1",
-		"@connectrpc/connect-node": "^2.1.1"
+		"@connectrpc/connect-node": "^2.1.1",
+		"@connectrpc/connect-web": "^2.1.1"
 	}
 }
