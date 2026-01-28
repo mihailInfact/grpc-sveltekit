@@ -2,14 +2,30 @@ syntax = "proto3";
 package greeter.v1;
 option go_package = "server/pkg/greeter";
 
-service Greeter {
-  rpc SayHello (HelloRequest) returns (HelloResponse);
+import "google/protobuf/timestamp.proto";
+
+service ToDoService {
+  rpc Create (CreateRequest) returns (CreateResponse);
 }
 
-message HelloRequest {
-  string name = 1;
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  PENDING = 1;
+  COMPLETED = 2;
 }
 
-message HelloResponse {
-  string message = 1;
+message ToDoItem {
+  string title = 2;
+  string description = 3;
+  Status status = 4;
+}
+
+message CreateRequest {
+  ToDoItem item = 1;
+}
+
+message CreateResponse {
+  string id = 1;
+  ToDoItem item = 2;
+  google.protobuf.Timestamp created_at = 3;
 }

@@ -9,6 +9,7 @@ package greeter
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -21,71 +22,136 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type HelloRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
+type Status int32
 
-func (x *HelloRequest) Reset() {
-	*x = HelloRequest{}
-	mi := &file_proto_greeter_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
+const (
+	Status_STATUS_UNSPECIFIED Status = 0
+	Status_PENDING            Status = 1
+	Status_COMPLETED          Status = 2
+)
 
-func (x *HelloRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*HelloRequest) ProtoMessage() {}
-
-func (x *HelloRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_greeter_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
+// Enum value maps for Status.
+var (
+	Status_name = map[int32]string{
+		0: "STATUS_UNSPECIFIED",
+		1: "PENDING",
+		2: "COMPLETED",
 	}
-	return mi.MessageOf(x)
+	Status_value = map[string]int32{
+		"STATUS_UNSPECIFIED": 0,
+		"PENDING":            1,
+		"COMPLETED":          2,
+	}
+)
+
+func (x Status) Enum() *Status {
+	p := new(Status)
+	*p = x
+	return p
 }
 
-// Deprecated: Use HelloRequest.ProtoReflect.Descriptor instead.
-func (*HelloRequest) Descriptor() ([]byte, []int) {
+func (x Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_greeter_proto_enumTypes[0].Descriptor()
+}
+
+func (Status) Type() protoreflect.EnumType {
+	return &file_proto_greeter_proto_enumTypes[0]
+}
+
+func (x Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Status.Descriptor instead.
+func (Status) EnumDescriptor() ([]byte, []int) {
 	return file_proto_greeter_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *HelloRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-type HelloResponse struct {
+type ToDoItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Status        Status                 `protobuf:"varint,4,opt,name=status,proto3,enum=greeter.v1.Status" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *HelloResponse) Reset() {
-	*x = HelloResponse{}
+func (x *ToDoItem) Reset() {
+	*x = ToDoItem{}
+	mi := &file_proto_greeter_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ToDoItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ToDoItem) ProtoMessage() {}
+
+func (x *ToDoItem) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_greeter_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ToDoItem.ProtoReflect.Descriptor instead.
+func (*ToDoItem) Descriptor() ([]byte, []int) {
+	return file_proto_greeter_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ToDoItem) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *ToDoItem) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ToDoItem) GetStatus() Status {
+	if x != nil {
+		return x.Status
+	}
+	return Status_STATUS_UNSPECIFIED
+}
+
+type CreateRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Item          *ToDoItem              `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateRequest) Reset() {
+	*x = CreateRequest{}
 	mi := &file_proto_greeter_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *HelloResponse) String() string {
+func (x *CreateRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*HelloResponse) ProtoMessage() {}
+func (*CreateRequest) ProtoMessage() {}
 
-func (x *HelloResponse) ProtoReflect() protoreflect.Message {
+func (x *CreateRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_greeter_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -97,16 +163,76 @@ func (x *HelloResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use HelloResponse.ProtoReflect.Descriptor instead.
-func (*HelloResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateRequest.ProtoReflect.Descriptor instead.
+func (*CreateRequest) Descriptor() ([]byte, []int) {
 	return file_proto_greeter_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *HelloResponse) GetMessage() string {
+func (x *CreateRequest) GetItem() *ToDoItem {
 	if x != nil {
-		return x.Message
+		return x.Item
+	}
+	return nil
+}
+
+type CreateResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Item          *ToDoItem              `protobuf:"bytes,2,opt,name=item,proto3" json:"item,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateResponse) Reset() {
+	*x = CreateResponse{}
+	mi := &file_proto_greeter_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateResponse) ProtoMessage() {}
+
+func (x *CreateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_greeter_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateResponse.ProtoReflect.Descriptor instead.
+func (*CreateResponse) Descriptor() ([]byte, []int) {
+	return file_proto_greeter_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateResponse) GetId() string {
+	if x != nil {
+		return x.Id
 	}
 	return ""
+}
+
+func (x *CreateResponse) GetItem() *ToDoItem {
+	if x != nil {
+		return x.Item
+	}
+	return nil
+}
+
+func (x *CreateResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
 }
 
 var File_proto_greeter_proto protoreflect.FileDescriptor
@@ -114,13 +240,24 @@ var File_proto_greeter_proto protoreflect.FileDescriptor
 const file_proto_greeter_proto_rawDesc = "" +
 	"\n" +
 	"\x13proto/greeter.proto\x12\n" +
-	"greeter.v1\"\"\n" +
-	"\fHelloRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\")\n" +
-	"\rHelloResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2J\n" +
-	"\aGreeter\x12?\n" +
-	"\bSayHello\x12\x18.greeter.v1.HelloRequest\x1a\x19.greeter.v1.HelloResponseB\x14Z\x12server/pkg/greeterb\x06proto3"
+	"greeter.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"n\n" +
+	"\bToDoItem\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12*\n" +
+	"\x06status\x18\x04 \x01(\x0e2\x12.greeter.v1.StatusR\x06status\"9\n" +
+	"\rCreateRequest\x12(\n" +
+	"\x04item\x18\x01 \x01(\v2\x14.greeter.v1.ToDoItemR\x04item\"\x85\x01\n" +
+	"\x0eCreateResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12(\n" +
+	"\x04item\x18\x02 \x01(\v2\x14.greeter.v1.ToDoItemR\x04item\x129\n" +
+	"\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt*<\n" +
+	"\x06Status\x12\x16\n" +
+	"\x12STATUS_UNSPECIFIED\x10\x00\x12\v\n" +
+	"\aPENDING\x10\x01\x12\r\n" +
+	"\tCOMPLETED\x10\x022N\n" +
+	"\vToDoService\x12?\n" +
+	"\x06Create\x12\x19.greeter.v1.CreateRequest\x1a\x1a.greeter.v1.CreateResponseB\x14Z\x12server/pkg/greeterb\x06proto3"
 
 var (
 	file_proto_greeter_proto_rawDescOnce sync.Once
@@ -134,19 +271,27 @@ func file_proto_greeter_proto_rawDescGZIP() []byte {
 	return file_proto_greeter_proto_rawDescData
 }
 
-var file_proto_greeter_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_proto_greeter_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proto_greeter_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_proto_greeter_proto_goTypes = []any{
-	(*HelloRequest)(nil),  // 0: greeter.v1.HelloRequest
-	(*HelloResponse)(nil), // 1: greeter.v1.HelloResponse
+	(Status)(0),                   // 0: greeter.v1.Status
+	(*ToDoItem)(nil),              // 1: greeter.v1.ToDoItem
+	(*CreateRequest)(nil),         // 2: greeter.v1.CreateRequest
+	(*CreateResponse)(nil),        // 3: greeter.v1.CreateResponse
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_proto_greeter_proto_depIdxs = []int32{
-	0, // 0: greeter.v1.Greeter.SayHello:input_type -> greeter.v1.HelloRequest
-	1, // 1: greeter.v1.Greeter.SayHello:output_type -> greeter.v1.HelloResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: greeter.v1.ToDoItem.status:type_name -> greeter.v1.Status
+	1, // 1: greeter.v1.CreateRequest.item:type_name -> greeter.v1.ToDoItem
+	1, // 2: greeter.v1.CreateResponse.item:type_name -> greeter.v1.ToDoItem
+	4, // 3: greeter.v1.CreateResponse.created_at:type_name -> google.protobuf.Timestamp
+	2, // 4: greeter.v1.ToDoService.Create:input_type -> greeter.v1.CreateRequest
+	3, // 5: greeter.v1.ToDoService.Create:output_type -> greeter.v1.CreateResponse
+	5, // [5:6] is the sub-list for method output_type
+	4, // [4:5] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_proto_greeter_proto_init() }
@@ -159,13 +304,14 @@ func file_proto_greeter_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_greeter_proto_rawDesc), len(file_proto_greeter_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_proto_greeter_proto_goTypes,
 		DependencyIndexes: file_proto_greeter_proto_depIdxs,
+		EnumInfos:         file_proto_greeter_proto_enumTypes,
 		MessageInfos:      file_proto_greeter_proto_msgTypes,
 	}.Build()
 	File_proto_greeter_proto = out.File
