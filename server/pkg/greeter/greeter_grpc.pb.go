@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: greeter.proto
 
-package proto
+package greeter
 
 import (
 	context "context"

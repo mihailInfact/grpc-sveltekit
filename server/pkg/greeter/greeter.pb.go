@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: greeter.proto
 
-package proto
+package greeter
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -640,8 +640,8 @@ const file_greeter_proto_rawDesc = "" +
 	"\x06Delete\x12\x19.greeter.v1.DeleteRequest\x1a\x16.google.protobuf.Empty\x12?\n" +
 	"\x06GetOne\x12\x19.greeter.v1.GetOneRequest\x1a\x1a.greeter.v1.GetOneResponse\x12<\n" +
 	"\x06GetAll\x12\x16.google.protobuf.Empty\x1a\x1a.greeter.v1.GetAllResponse\x12G\n" +
-	"\fUpdateStatus\x12\x1f.greeter.v1.UpdateStatusRequest\x1a\x16.google.protobuf.EmptyB\x89\x01\n" +
-	"\x0ecom.greeter.v1B\fGreeterProtoP\x01Z greeter/server/pkg/greeter/proto\xa2\x02\x03GXX\xaa\x02\n" +
+	"\fUpdateStatus\x12\x1f.greeter.v1.UpdateStatusRequest\x1a\x16.google.protobuf.EmptyB|\n" +
+	"\x0ecom.greeter.v1B\fGreeterProtoP\x01Z\x13greeter/pkg/greeter\xa2\x02\x03GXX\xaa\x02\n" +
 	"Greeter.V1\xca\x02\n" +
 	"Greeter\\V1\xe2\x02\x16Greeter\\V1\\GPBMetadata\xea\x02\vGreeter::V1b\x06proto3"
 

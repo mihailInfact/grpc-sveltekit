@@ -1,14 +1,29 @@
 # 🚀 Hackday: SvelteKit + Go gRPC-Web Integration
 
-A "play" project exploring the seamless integration of Go gRPC and SvelteKit 5. This repository demonstrates how to bypass the traditional hurdles of gRPC-Web by using the Connect RPC protocol to achieve end-to-end type safety.
+A "play" project exploring the seamless integration of Go gRPC and SvelteKit 5. This repository demonstrates how to bypass the traditional hurdles of gRPC-Web by using the [Connect RPC](https://connectrpc.com/) protocol to achieve end-to-end type safety.
 
 ## 🎯 The Challenge
 
 Standard gRPC uses HTTP/2 trailing headers, which browsers cannot access. Traditionally, this required a complex Envoy proxy. The Solution: This project uses Connect RPC to allow the Go server to speak a web-friendly version of gRPC that SvelteKit can consume directly (or via SSR) with zero proxy overhead and 100% TypeScript type safety.
 
+## Why Connect RPC
+
+Here is a step-by-step breakdown of the advantages and disadvantages.
+
+    ✅ Browser Native (No Proxies)
+    ✅ Better Debugging (cURL & DevTools)
+    ✅ Plugs into the Go Ecosystem (A Connect server is an http.Handler. You can use it with any Go router and any standard middleware you already love.)
+    ✅ Three Protocols in One (gRPC, gRPC-Web, Connect)
+
+### Disadvantages of Connect RPC
+
+    ❌ Performance "Edge Cases" - for 99% of web apps, the difference is zero - Google’s grpc-go is slightly more optimized for raw HTTP/2 framing than a standard net/http server.
+    ❌ Smaller Ecosystem
+    ❌ Feature Parity (Streaming) - bidirectional streaming over HTTP/1.1 is technically impossible while Connect allows it to fail silently if the network only supports HTTP/1.1.
+
 ## 🏗 Project Architecture
 
-```txt
+```sh
 ├── proto/                    # Source of Truth (Protobuf definitions)
 ├── server/                   # Go Service (The "Source")
 │   └── pkg/greeter/          # Auto-generated Go gRPC stubs
@@ -18,26 +33,6 @@ Standard gRPC uses HTTP/2 trailing headers, which browsers cannot access. Tradit
 ├── buf.gen.server.yaml       # Backend generation config
 └── buf.gen.client.yaml       # Frontend generation config
 ```
-
-Here is the updated README.md tailored for your Hackday project. It emphasizes the "hack" nature of the project—solving the specific challenge of bridging Go gRPC with SvelteKit via the modern Connect RPC protocol.
-
-🚀 Hackday: SvelteKit + Go gRPC-Web Integration
-A "play" project exploring the seamless integration of Go gRPC and SvelteKit 5. This repository demonstrates how to bypass the traditional hurdles of gRPC-Web by using the Connect RPC protocol to achieve end-to-end type safety.
-
-🎯 The Challenge
-Standard gRPC uses HTTP/2 trailing headers, which browsers cannot access. Traditionally, this required a complex Envoy proxy. The Solution: This project uses Connect RPC to allow the Go server to speak a web-friendly version of gRPC that SvelteKit can consume directly (or via SSR) with zero proxy overhead and 100% TypeScript type safety.
-
-🏗 Project Architecture
-Plaintext
-
-├── proto/                    # Source of Truth (Protobuf definitions)
-├── server/                   # Go Service (The "Source")
-│   └── pkg/greeter/          # Auto-generated Go gRPC stubs
-├── client/                   # SvelteKit App (The "Consumer")
-│   └── src/gen/              # Auto-generated TypeScript Connect stubs
-├── taskfile.yml              # The orchestrator
-├── buf.gen.server.yaml       # Backend generation config
-└── buf.gen.client.yaml       # Frontend generation config
 
 ## 🛠 Features
 
@@ -110,4 +105,3 @@ export const load: PageServerLoad = async () => {
 Task,Command,Result
 gen-server,buf generate ...,Updates server/pkg/greeter with Go stubs.
 gen-client,buf generate ...,Updates client/src/gen with TS/Connect stubs.
-

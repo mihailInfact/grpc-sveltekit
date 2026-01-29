@@ -4,14 +4,16 @@ import (
 	"context"
 	"greeter/internal/store"
 	pb "greeter/pkg/greeter"
+	"greeter/pkg/greeter/greeterconnect"
 	"log"
-	"net"
+	"net/http"
 	"time"
 
+	"connectrpc.com/connect"
 	_ "github.com/mattn/go-sqlite3"
-	"google.golang.org/grpc"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -24,7 +26,15 @@ type server struct {
 	Store *store.Store
 }
 
-func (s *server) GetAll(ctx context.Context, _ *emptypb.Empty) (*pb.GetAllResponse, error) {
+func (s *server) GetOne(ctx context.Context, req *connect.Request[pb.GetOneRequest]) (*connect.Response[pb.GetOneResponse], error) {
+	return connect.NewResponse(&pb.GetOneResponse{}), nil
+}
+
+func (s *server) Update(ctx context.Context, req *connect.Request[pb.UpdateRequest]) (*connect.Response[pb.UpdateResponse], error) {
+	return connect.NewResponse(&pb.UpdateResponse{}), nil
+}
+
+func (s *server) GetAll(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[pb.GetAllResponse], error) {
 	log.Println("fetching all todo items")
 
 	items := make([]*pb.ToDoItem, 0)
@@ -64,14 +74,11 @@ func (s *server) GetAll(ctx context.Context, _ *emptypb.Empty) (*pb.GetAllRespon
 		return nil, err
 	}
 
-	return &pb.GetAllResponse{
-		Items: items,
-	}, nil
+	return connect.NewResponse(&pb.GetAllResponse{Items: items}), nil
 }
 
-func (s *server) Create(ctx context.Context, req *pb.CreateRequest) (*pb.CreateResponse, error) {
-	todoItem := req.GetItem()
-
+func (s *server) Create(ctx context.Context, req *connect.Request[pb.CreateRequest]) (*connect.Response[pb.CreateResponse], error) {
+	todoItem := req.Msg.GetItem()
 	log.Printf("creating item: %+v\n", todoItem)
 
 	var id int64
@@ -90,21 +97,17 @@ func (s *server) Create(ctx context.Context, req *pb.CreateRequest) (*pb.CreateR
 	}
 
 	// Implement the logic to create a new todo item
-	return &pb.CreateResponse{
-		Item: &pb.ToDoItem{
-			Id: id,
-			Item: &pb.ToDoDetails{
-				Title:       todoItem.GetTitle(),
-				Description: todoItem.GetDescription(),
-				Status:      todoItem.GetStatus(),
-			},
-			CreatedAt: timestamppb.New(createdAt),
+	return connect.NewResponse(&pb.CreateResponse{Item: &pb.ToDoItem{Id: id,
+		Item: &pb.ToDoDetails{
+			Title:       todoItem.GetTitle(),
+			Description: todoItem.GetDescription(),
+			Status:      todoItem.GetStatus(),
 		},
-	}, nil
+		CreatedAt: timestamppb.New(createdAt)}}), nil
 }
 
-func (s *server) Delete(ctx context.Context, req *pb.DeleteRequest) (*emptypb.Empty, error) {
-	id := req.GetId()
+func (s *server) Delete(ctx context.Context, req *connect.Request[pb.DeleteRequest]) (*connect.Response[emptypb.Empty], error) {
+	id := req.Msg.GetId()
 	log.Println("deleting todo item: ", id)
 
 	res, err := s.Store.ExecContext(ctx, "DELETE FROM todos WHERE ID = ?", id)
@@ -117,12 +120,12 @@ func (s *server) Delete(ctx context.Context, req *pb.DeleteRequest) (*emptypb.Em
 		return nil, status.Errorf(codes.NotFound, "Todo with ID %d not found", id)
 	}
 
-	return &emptypb.Empty{}, nil
+	return connect.NewResponse(&emptypb.Empty{}), nil
 }
 
-func (s *server) UpdateStatus(ctx context.Context, req *pb.UpdateStatusRequest) (*emptypb.Empty, error) {
-	id := req.GetId()
-	newStatus := req.GetStatus()
+func (s *server) UpdateStatus(ctx context.Context, req *connect.Request[pb.UpdateStatusRequest]) (*connect.Response[emptypb.Empty], error) {
+	id := req.Msg.Id
+	newStatus := req.Msg.Status
 
 	log.Printf("Updating todo %v to status %v", id, newStatus)
 
@@ -131,7 +134,7 @@ func (s *server) UpdateStatus(ctx context.Context, req *pb.UpdateStatusRequest) 
 		return nil, status.Errorf(codes.Internal, "Could not update: %v", err)
 	}
 
-	return &emptypb.Empty{}, nil
+	return connect.NewResponse(&emptypb.Empty{}), nil
 }
 
 func main() {
@@ -141,17 +144,21 @@ func main() {
 	}
 	defer db.Close()
 
-	lis, err := net.Listen("tcp", ":50051")
+	srv := &server{Store: db}
+	mux := http.NewServeMux()
+	path, handler := greeterconnect.NewToDoServiceHandler(srv)
+	mux.Handle(path, handler)
+
+	log.Printf("Connect server listening at :50051")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	s := grpc.NewServer()
-	pb.RegisterToDoServiceServer(s, &server{Store: db})
-
-	reflection.Register(s)
-	log.Printf("Server listening at %v", lis.Addr())
-	if err := s.Serve(lis); err != nil {
+	err = http.ListenAndServe(
+		"localhost:50051",
+		h2c.NewHandler(mux, &http2.Server{}),
+	)
+	if err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
