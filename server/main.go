@@ -10,7 +10,9 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -99,6 +101,23 @@ func (s *server) Create(ctx context.Context, req *pb.CreateRequest) (*pb.CreateR
 			CreatedAt: timestamppb.New(createdAt),
 		},
 	}, nil
+}
+
+func (s *server) Delete(ctx context.Context, req *pb.DeleteRequest) (*emptypb.Empty, error) {
+	id := req.GetId()
+	log.Println("deleting todo item: ", id)
+
+	res, err := s.Store.ExecContext(ctx, "DELETE FROM todos WHERE ID = ?", id)
+	if err != nil {
+		return nil, err
+	}
+	rowsAffected, _ := res.RowsAffected()
+	if rowsAffected == 0 {
+		// Return a specific gRPC error code
+		return nil, status.Errorf(codes.NotFound, "Todo with ID %d not found", id)
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
 func main() {
