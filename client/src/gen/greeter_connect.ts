@@ -3,60 +3,78 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CreateRequest, CreateResponse, DeleteRequest, GetAllResponse, GetOneRequest, GetOneResponse, UpdateRequest, UpdateResponse } from "./greeter_pb.js";
-import { Empty, MethodKind } from "@bufbuild/protobuf";
+import {
+	CreateRequest,
+	CreateResponse,
+	DeleteRequest,
+	GetAllResponse,
+	GetOneRequest,
+	GetOneResponse,
+	UpdateRequest,
+	UpdateResponse,
+	UpdateStatusRequest
+} from './greeter_pb.js';
+import { Empty, MethodKind } from '@bufbuild/protobuf';
 
 /**
  * @generated from service greeter.v1.ToDoService
  */
 export const ToDoService = {
-  typeName: "greeter.v1.ToDoService",
-  methods: {
-    /**
-     * @generated from rpc greeter.v1.ToDoService.Create
-     */
-    create: {
-      name: "Create",
-      I: CreateRequest,
-      O: CreateResponse,
-      kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc greeter.v1.ToDoService.Update
-     */
-    update: {
-      name: "Update",
-      I: UpdateRequest,
-      O: UpdateResponse,
-      kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc greeter.v1.ToDoService.Delete
-     */
-    delete: {
-      name: "Delete",
-      I: DeleteRequest,
-      O: Empty,
-      kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc greeter.v1.ToDoService.GetOne
-     */
-    getOne: {
-      name: "GetOne",
-      I: GetOneRequest,
-      O: GetOneResponse,
-      kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc greeter.v1.ToDoService.GetAll
-     */
-    getAll: {
-      name: "GetAll",
-      I: Empty,
-      O: GetAllResponse,
-      kind: MethodKind.Unary,
-    },
-  }
+	typeName: 'greeter.v1.ToDoService',
+	methods: {
+		/**
+		 * @generated from rpc greeter.v1.ToDoService.Create
+		 */
+		create: {
+			name: 'Create',
+			I: CreateRequest,
+			O: CreateResponse,
+			kind: MethodKind.Unary
+		},
+		/**
+		 * @generated from rpc greeter.v1.ToDoService.Update
+		 */
+		update: {
+			name: 'Update',
+			I: UpdateRequest,
+			O: UpdateResponse,
+			kind: MethodKind.Unary
+		},
+		/**
+		 * @generated from rpc greeter.v1.ToDoService.Delete
+		 */
+		delete: {
+			name: 'Delete',
+			I: DeleteRequest,
+			O: Empty,
+			kind: MethodKind.Unary
+		},
+		/**
+		 * @generated from rpc greeter.v1.ToDoService.GetOne
+		 */
+		getOne: {
+			name: 'GetOne',
+			I: GetOneRequest,
+			O: GetOneResponse,
+			kind: MethodKind.Unary
+		},
+		/**
+		 * @generated from rpc greeter.v1.ToDoService.GetAll
+		 */
+		getAll: {
+			name: 'GetAll',
+			I: Empty,
+			O: GetAllResponse,
+			kind: MethodKind.Unary
+		},
+		/**
+		 * @generated from rpc greeter.v1.ToDoService.UpdateStatus
+		 */
+		updateStatus: {
+			name: 'UpdateStatus',
+			I: UpdateStatusRequest,
+			O: Empty,
+			kind: MethodKind.Unary
+		}
+	}
 } as const;
-

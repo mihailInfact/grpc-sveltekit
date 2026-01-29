@@ -20,11 +20,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ToDoService_Create_FullMethodName = "/greeter.v1.ToDoService/Create"
-	ToDoService_Update_FullMethodName = "/greeter.v1.ToDoService/Update"
-	ToDoService_Delete_FullMethodName = "/greeter.v1.ToDoService/Delete"
-	ToDoService_GetOne_FullMethodName = "/greeter.v1.ToDoService/GetOne"
-	ToDoService_GetAll_FullMethodName = "/greeter.v1.ToDoService/GetAll"
+	ToDoService_Create_FullMethodName       = "/greeter.v1.ToDoService/Create"
+	ToDoService_Update_FullMethodName       = "/greeter.v1.ToDoService/Update"
+	ToDoService_Delete_FullMethodName       = "/greeter.v1.ToDoService/Delete"
+	ToDoService_GetOne_FullMethodName       = "/greeter.v1.ToDoService/GetOne"
+	ToDoService_GetAll_FullMethodName       = "/greeter.v1.ToDoService/GetAll"
+	ToDoService_UpdateStatus_FullMethodName = "/greeter.v1.ToDoService/UpdateStatus"
 )
 
 // ToDoServiceClient is the client API for ToDoService service.
@@ -36,6 +37,7 @@ type ToDoServiceClient interface {
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetOne(ctx context.Context, in *GetOneRequest, opts ...grpc.CallOption) (*GetOneResponse, error)
 	GetAll(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllResponse, error)
+	UpdateStatus(ctx context.Context, in *UpdateStatusRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type toDoServiceClient struct {
@@ -96,6 +98,16 @@ func (c *toDoServiceClient) GetAll(ctx context.Context, in *emptypb.Empty, opts 
 	return out, nil
 }
 
+func (c *toDoServiceClient) UpdateStatus(ctx context.Context, in *UpdateStatusRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, ToDoService_UpdateStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ToDoServiceServer is the server API for ToDoService service.
 // All implementations must embed UnimplementedToDoServiceServer
 // for forward compatibility.
@@ -105,6 +117,7 @@ type ToDoServiceServer interface {
 	Delete(context.Context, *DeleteRequest) (*emptypb.Empty, error)
 	GetOne(context.Context, *GetOneRequest) (*GetOneResponse, error)
 	GetAll(context.Context, *emptypb.Empty) (*GetAllResponse, error)
+	UpdateStatus(context.Context, *UpdateStatusRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedToDoServiceServer()
 }
 
@@ -129,6 +142,9 @@ func (UnimplementedToDoServiceServer) GetOne(context.Context, *GetOneRequest) (*
 }
 func (UnimplementedToDoServiceServer) GetAll(context.Context, *emptypb.Empty) (*GetAllResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetAll not implemented")
+}
+func (UnimplementedToDoServiceServer) UpdateStatus(context.Context, *UpdateStatusRequest) (*emptypb.Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateStatus not implemented")
 }
 func (UnimplementedToDoServiceServer) mustEmbedUnimplementedToDoServiceServer() {}
 func (UnimplementedToDoServiceServer) testEmbeddedByValue()                     {}
@@ -241,6 +257,24 @@ func _ToDoService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ToDoService_UpdateStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ToDoServiceServer).UpdateStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ToDoService_UpdateStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ToDoServiceServer).UpdateStatus(ctx, req.(*UpdateStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ToDoService_ServiceDesc is the grpc.ServiceDesc for ToDoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,6 +301,10 @@ var ToDoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAll",
 			Handler:    _ToDoService_GetAll_Handler,
+		},
+		{
+			MethodName: "UpdateStatus",
+			Handler:    _ToDoService_UpdateStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

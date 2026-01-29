@@ -544,6 +544,58 @@ func (x *GetAllResponse) GetItems() []*ToDoItem {
 	return nil
 }
 
+type UpdateStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Status        Status                 `protobuf:"varint,2,opt,name=status,proto3,enum=greeter.v1.Status" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateStatusRequest) Reset() {
+	*x = UpdateStatusRequest{}
+	mi := &file_greeter_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateStatusRequest) ProtoMessage() {}
+
+func (x *UpdateStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_greeter_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateStatusRequest.ProtoReflect.Descriptor instead.
+func (*UpdateStatusRequest) Descriptor() ([]byte, []int) {
+	return file_greeter_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateStatusRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateStatusRequest) GetStatus() Status {
+	if x != nil {
+		return x.Status
+	}
+	return Status_STATUS_UNSPECIFIED
+}
+
 var File_greeter_proto protoreflect.FileDescriptor
 
 const file_greeter_proto_rawDesc = "" +
@@ -574,17 +626,21 @@ const file_greeter_proto_rawDesc = "" +
 	"\x0eGetOneResponse\x12(\n" +
 	"\x04item\x18\x01 \x01(\v2\x14.greeter.v1.ToDoItemR\x04item\"<\n" +
 	"\x0eGetAllResponse\x12*\n" +
-	"\x05items\x18\x01 \x03(\v2\x14.greeter.v1.ToDoItemR\x05items*<\n" +
+	"\x05items\x18\x01 \x03(\v2\x14.greeter.v1.ToDoItemR\x05items\"Q\n" +
+	"\x13UpdateStatusRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12*\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x12.greeter.v1.StatusR\x06status*<\n" +
 	"\x06Status\x12\x16\n" +
 	"\x12STATUS_UNSPECIFIED\x10\x00\x12\v\n" +
 	"\aPENDING\x10\x01\x12\r\n" +
-	"\tCOMPLETED\x10\x022\xcb\x02\n" +
+	"\tCOMPLETED\x10\x022\x94\x03\n" +
 	"\vToDoService\x12?\n" +
 	"\x06Create\x12\x19.greeter.v1.CreateRequest\x1a\x1a.greeter.v1.CreateResponse\x12?\n" +
 	"\x06Update\x12\x19.greeter.v1.UpdateRequest\x1a\x1a.greeter.v1.UpdateResponse\x12;\n" +
 	"\x06Delete\x12\x19.greeter.v1.DeleteRequest\x1a\x16.google.protobuf.Empty\x12?\n" +
 	"\x06GetOne\x12\x19.greeter.v1.GetOneRequest\x1a\x1a.greeter.v1.GetOneResponse\x12<\n" +
-	"\x06GetAll\x12\x16.google.protobuf.Empty\x1a\x1a.greeter.v1.GetAllResponseB\x89\x01\n" +
+	"\x06GetAll\x12\x16.google.protobuf.Empty\x1a\x1a.greeter.v1.GetAllResponse\x12G\n" +
+	"\fUpdateStatus\x12\x1f.greeter.v1.UpdateStatusRequest\x1a\x16.google.protobuf.EmptyB\x89\x01\n" +
 	"\x0ecom.greeter.v1B\fGreeterProtoP\x01Z greeter/server/pkg/greeter/proto\xa2\x02\x03GXX\xaa\x02\n" +
 	"Greeter.V1\xca\x02\n" +
 	"Greeter\\V1\xe2\x02\x16Greeter\\V1\\GPBMetadata\xea\x02\vGreeter::V1b\x06proto3"
@@ -602,7 +658,7 @@ func file_greeter_proto_rawDescGZIP() []byte {
 }
 
 var file_greeter_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_greeter_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_greeter_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_greeter_proto_goTypes = []any{
 	(Status)(0),                   // 0: greeter.v1.Status
 	(*ToDoDetails)(nil),           // 1: greeter.v1.ToDoDetails
@@ -615,34 +671,38 @@ var file_greeter_proto_goTypes = []any{
 	(*GetOneRequest)(nil),         // 8: greeter.v1.GetOneRequest
 	(*GetOneResponse)(nil),        // 9: greeter.v1.GetOneResponse
 	(*GetAllResponse)(nil),        // 10: greeter.v1.GetAllResponse
-	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),         // 12: google.protobuf.Empty
+	(*UpdateStatusRequest)(nil),   // 11: greeter.v1.UpdateStatusRequest
+	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),         // 13: google.protobuf.Empty
 }
 var file_greeter_proto_depIdxs = []int32{
 	0,  // 0: greeter.v1.ToDoDetails.status:type_name -> greeter.v1.Status
 	1,  // 1: greeter.v1.ToDoItem.item:type_name -> greeter.v1.ToDoDetails
-	11, // 2: greeter.v1.ToDoItem.created_at:type_name -> google.protobuf.Timestamp
+	12, // 2: greeter.v1.ToDoItem.created_at:type_name -> google.protobuf.Timestamp
 	1,  // 3: greeter.v1.CreateRequest.item:type_name -> greeter.v1.ToDoDetails
 	2,  // 4: greeter.v1.CreateResponse.item:type_name -> greeter.v1.ToDoItem
 	1,  // 5: greeter.v1.UpdateRequest.item:type_name -> greeter.v1.ToDoDetails
 	2,  // 6: greeter.v1.UpdateResponse.item:type_name -> greeter.v1.ToDoItem
 	2,  // 7: greeter.v1.GetOneResponse.item:type_name -> greeter.v1.ToDoItem
 	2,  // 8: greeter.v1.GetAllResponse.items:type_name -> greeter.v1.ToDoItem
-	3,  // 9: greeter.v1.ToDoService.Create:input_type -> greeter.v1.CreateRequest
-	5,  // 10: greeter.v1.ToDoService.Update:input_type -> greeter.v1.UpdateRequest
-	7,  // 11: greeter.v1.ToDoService.Delete:input_type -> greeter.v1.DeleteRequest
-	8,  // 12: greeter.v1.ToDoService.GetOne:input_type -> greeter.v1.GetOneRequest
-	12, // 13: greeter.v1.ToDoService.GetAll:input_type -> google.protobuf.Empty
-	4,  // 14: greeter.v1.ToDoService.Create:output_type -> greeter.v1.CreateResponse
-	6,  // 15: greeter.v1.ToDoService.Update:output_type -> greeter.v1.UpdateResponse
-	12, // 16: greeter.v1.ToDoService.Delete:output_type -> google.protobuf.Empty
-	9,  // 17: greeter.v1.ToDoService.GetOne:output_type -> greeter.v1.GetOneResponse
-	10, // 18: greeter.v1.ToDoService.GetAll:output_type -> greeter.v1.GetAllResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	0,  // 9: greeter.v1.UpdateStatusRequest.status:type_name -> greeter.v1.Status
+	3,  // 10: greeter.v1.ToDoService.Create:input_type -> greeter.v1.CreateRequest
+	5,  // 11: greeter.v1.ToDoService.Update:input_type -> greeter.v1.UpdateRequest
+	7,  // 12: greeter.v1.ToDoService.Delete:input_type -> greeter.v1.DeleteRequest
+	8,  // 13: greeter.v1.ToDoService.GetOne:input_type -> greeter.v1.GetOneRequest
+	13, // 14: greeter.v1.ToDoService.GetAll:input_type -> google.protobuf.Empty
+	11, // 15: greeter.v1.ToDoService.UpdateStatus:input_type -> greeter.v1.UpdateStatusRequest
+	4,  // 16: greeter.v1.ToDoService.Create:output_type -> greeter.v1.CreateResponse
+	6,  // 17: greeter.v1.ToDoService.Update:output_type -> greeter.v1.UpdateResponse
+	13, // 18: greeter.v1.ToDoService.Delete:output_type -> google.protobuf.Empty
+	9,  // 19: greeter.v1.ToDoService.GetOne:output_type -> greeter.v1.GetOneResponse
+	10, // 20: greeter.v1.ToDoService.GetAll:output_type -> greeter.v1.GetAllResponse
+	13, // 21: greeter.v1.ToDoService.UpdateStatus:output_type -> google.protobuf.Empty
+	16, // [16:22] is the sub-list for method output_type
+	10, // [10:16] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_greeter_proto_init() }
@@ -656,7 +716,7 @@ func file_greeter_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_greeter_proto_rawDesc), len(file_greeter_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

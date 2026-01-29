@@ -120,6 +120,20 @@ func (s *server) Delete(ctx context.Context, req *pb.DeleteRequest) (*emptypb.Em
 	return &emptypb.Empty{}, nil
 }
 
+func (s *server) UpdateStatus(ctx context.Context, req *pb.UpdateStatusRequest) (*emptypb.Empty, error) {
+	id := req.GetId()
+	newStatus := req.GetStatus()
+
+	log.Printf("Updating todo %v to status %v", id, newStatus)
+
+	_, err := s.Store.ExecContext(ctx, "UPDATE todos SET status = ? WHERE id = ?", newStatus, id)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Could not update: %v", err)
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
 func main() {
 	db, err := store.New()
 	if err != nil {

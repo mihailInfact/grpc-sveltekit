@@ -11,6 +11,7 @@ service ToDoService {
   rpc Delete (DeleteRequest) returns (google.protobuf.Empty);
   rpc GetOne (GetOneRequest) returns (GetOneResponse);
   rpc GetAll (google.protobuf.Empty) returns (GetAllResponse);
+  rpc UpdateStatus (UpdateStatusRequest) returns (google.protobuf.Empty);
 }
 
 enum Status {
@@ -61,4 +62,9 @@ message GetOneResponse {
 
 message GetAllResponse {
   repeated ToDoItem items = 1;
+}
+
+message UpdateStatusRequest {
+  int64 id = 1;
+  Status status = 2;
 }

@@ -2,278 +2,318 @@
 // @generated from file greeter.proto (package greeter.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_empty, file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
-import type { Message } from "@bufbuild/protobuf";
+import type { GenEnum, GenFile, GenMessage, GenService } from '@bufbuild/protobuf/codegenv2';
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from '@bufbuild/protobuf/codegenv2';
+import type { EmptySchema, Timestamp } from '@bufbuild/protobuf/wkt';
+import { file_google_protobuf_empty, file_google_protobuf_timestamp } from '@bufbuild/protobuf/wkt';
+import type { Message } from '@bufbuild/protobuf';
 
 /**
  * Describes the file greeter.proto.
  */
-export const file_greeter: GenFile = /*@__PURE__*/
-  fileDesc("Cg1ncmVldGVyLnByb3RvEgpncmVldGVyLnYxIlUKC1RvRG9EZXRhaWxzEg0KBXRpdGxlGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEiIKBnN0YXR1cxgEIAEoDjISLmdyZWV0ZXIudjEuU3RhdHVzIm0KCFRvRG9JdGVtEgoKAmlkGAEgASgDEiUKBGl0ZW0YAiABKAsyFy5ncmVldGVyLnYxLlRvRG9EZXRhaWxzEi4KCmNyZWF0ZWRfYXQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIjYKDUNyZWF0ZVJlcXVlc3QSJQoEaXRlbRgBIAEoCzIXLmdyZWV0ZXIudjEuVG9Eb0RldGFpbHMiNAoOQ3JlYXRlUmVzcG9uc2USIgoEaXRlbRgBIAEoCzIULmdyZWV0ZXIudjEuVG9Eb0l0ZW0iNgoNVXBkYXRlUmVxdWVzdBIlCgRpdGVtGAEgASgLMhcuZ3JlZXRlci52MS5Ub0RvRGV0YWlscyI0Cg5VcGRhdGVSZXNwb25zZRIiCgRpdGVtGAEgASgLMhQuZ3JlZXRlci52MS5Ub0RvSXRlbSIbCg1EZWxldGVSZXF1ZXN0EgoKAmlkGAEgASgDIhsKDUdldE9uZVJlcXVlc3QSCgoCaWQYASABKAMiNAoOR2V0T25lUmVzcG9uc2USIgoEaXRlbRgBIAEoCzIULmdyZWV0ZXIudjEuVG9Eb0l0ZW0iNQoOR2V0QWxsUmVzcG9uc2USIwoFaXRlbXMYASADKAsyFC5ncmVldGVyLnYxLlRvRG9JdGVtKjwKBlN0YXR1cxIWChJTVEFUVVNfVU5TUEVDSUZJRUQQABILCgdQRU5ESU5HEAESDQoJQ09NUExFVEVEEAIyywIKC1RvRG9TZXJ2aWNlEj8KBkNyZWF0ZRIZLmdyZWV0ZXIudjEuQ3JlYXRlUmVxdWVzdBoaLmdyZWV0ZXIudjEuQ3JlYXRlUmVzcG9uc2USPwoGVXBkYXRlEhkuZ3JlZXRlci52MS5VcGRhdGVSZXF1ZXN0GhouZ3JlZXRlci52MS5VcGRhdGVSZXNwb25zZRI7CgZEZWxldGUSGS5ncmVldGVyLnYxLkRlbGV0ZVJlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkSPwoGR2V0T25lEhkuZ3JlZXRlci52MS5HZXRPbmVSZXF1ZXN0GhouZ3JlZXRlci52MS5HZXRPbmVSZXNwb25zZRI8CgZHZXRBbGwSFi5nb29nbGUucHJvdG9idWYuRW1wdHkaGi5ncmVldGVyLnYxLkdldEFsbFJlc3BvbnNlQokBCg5jb20uZ3JlZXRlci52MUIMR3JlZXRlclByb3RvUAFaIGdyZWV0ZXIvc2VydmVyL3BrZy9ncmVldGVyL3Byb3RvogIDR1hYqgIKR3JlZXRlci5WMcoCCkdyZWV0ZXJcVjHiAhZHcmVldGVyXFYxXEdQQk1ldGFkYXRh6gILR3JlZXRlcjo6VjFiBnByb3RvMw", [file_google_protobuf_timestamp, file_google_protobuf_empty]);
+export const file_greeter: GenFile =
+	/*@__PURE__*/
+	fileDesc(
+		'Cg1ncmVldGVyLnByb3RvEgpncmVldGVyLnYxIlUKC1RvRG9EZXRhaWxzEg0KBXRpdGxlGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEiIKBnN0YXR1cxgEIAEoDjISLmdyZWV0ZXIudjEuU3RhdHVzIm0KCFRvRG9JdGVtEgoKAmlkGAEgASgDEiUKBGl0ZW0YAiABKAsyFy5ncmVldGVyLnYxLlRvRG9EZXRhaWxzEi4KCmNyZWF0ZWRfYXQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIjYKDUNyZWF0ZVJlcXVlc3QSJQoEaXRlbRgBIAEoCzIXLmdyZWV0ZXIudjEuVG9Eb0RldGFpbHMiNAoOQ3JlYXRlUmVzcG9uc2USIgoEaXRlbRgBIAEoCzIULmdyZWV0ZXIudjEuVG9Eb0l0ZW0iNgoNVXBkYXRlUmVxdWVzdBIlCgRpdGVtGAEgASgLMhcuZ3JlZXRlci52MS5Ub0RvRGV0YWlscyI0Cg5VcGRhdGVSZXNwb25zZRIiCgRpdGVtGAEgASgLMhQuZ3JlZXRlci52MS5Ub0RvSXRlbSIbCg1EZWxldGVSZXF1ZXN0EgoKAmlkGAEgASgDIhsKDUdldE9uZVJlcXVlc3QSCgoCaWQYASABKAMiNAoOR2V0T25lUmVzcG9uc2USIgoEaXRlbRgBIAEoCzIULmdyZWV0ZXIudjEuVG9Eb0l0ZW0iNQoOR2V0QWxsUmVzcG9uc2USIwoFaXRlbXMYASADKAsyFC5ncmVldGVyLnYxLlRvRG9JdGVtIkUKE1VwZGF0ZVN0YXR1c1JlcXVlc3QSCgoCaWQYASABKAMSIgoGc3RhdHVzGAIgASgOMhIuZ3JlZXRlci52MS5TdGF0dXMqPAoGU3RhdHVzEhYKElNUQVRVU19VTlNQRUNJRklFRBAAEgsKB1BFTkRJTkcQARINCglDT01QTEVURUQQAjKUAwoLVG9Eb1NlcnZpY2USPwoGQ3JlYXRlEhkuZ3JlZXRlci52MS5DcmVhdGVSZXF1ZXN0GhouZ3JlZXRlci52MS5DcmVhdGVSZXNwb25zZRI/CgZVcGRhdGUSGS5ncmVldGVyLnYxLlVwZGF0ZVJlcXVlc3QaGi5ncmVldGVyLnYxLlVwZGF0ZVJlc3BvbnNlEjsKBkRlbGV0ZRIZLmdyZWV0ZXIudjEuRGVsZXRlUmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRI/CgZHZXRPbmUSGS5ncmVldGVyLnYxLkdldE9uZVJlcXVlc3QaGi5ncmVldGVyLnYxLkdldE9uZVJlc3BvbnNlEjwKBkdldEFsbBIWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eRoaLmdyZWV0ZXIudjEuR2V0QWxsUmVzcG9uc2USRwoMVXBkYXRlU3RhdHVzEh8uZ3JlZXRlci52MS5VcGRhdGVTdGF0dXNSZXF1ZXN0GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5QokBCg5jb20uZ3JlZXRlci52MUIMR3JlZXRlclByb3RvUAFaIGdyZWV0ZXIvc2VydmVyL3BrZy9ncmVldGVyL3Byb3RvogIDR1hYqgIKR3JlZXRlci5WMcoCCkdyZWV0ZXJcVjHiAhZHcmVldGVyXFYxXEdQQk1ldGFkYXRh6gILR3JlZXRlcjo6VjFiBnByb3RvMw',
+		[file_google_protobuf_timestamp, file_google_protobuf_empty]
+	);
 
 /**
  * @generated from message greeter.v1.ToDoDetails
  */
-export type ToDoDetails = Message<"greeter.v1.ToDoDetails"> & {
-  /**
-   * @generated from field: string title = 2;
-   */
-  title: string;
+export type ToDoDetails = Message<'greeter.v1.ToDoDetails'> & {
+	/**
+	 * @generated from field: string title = 2;
+	 */
+	title: string;
 
-  /**
-   * @generated from field: string description = 3;
-   */
-  description: string;
+	/**
+	 * @generated from field: string description = 3;
+	 */
+	description: string;
 
-  /**
-   * @generated from field: greeter.v1.Status status = 4;
-   */
-  status: Status;
+	/**
+	 * @generated from field: greeter.v1.Status status = 4;
+	 */
+	status: Status;
 };
 
 /**
  * Describes the message greeter.v1.ToDoDetails.
  * Use `create(ToDoDetailsSchema)` to create a new message.
  */
-export const ToDoDetailsSchema: GenMessage<ToDoDetails> = /*@__PURE__*/
-  messageDesc(file_greeter, 0);
+export const ToDoDetailsSchema: GenMessage<ToDoDetails> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 0);
 
 /**
  * @generated from message greeter.v1.ToDoItem
  */
-export type ToDoItem = Message<"greeter.v1.ToDoItem"> & {
-  /**
-   * @generated from field: int64 id = 1;
-   */
-  id: bigint;
+export type ToDoItem = Message<'greeter.v1.ToDoItem'> & {
+	/**
+	 * @generated from field: int64 id = 1;
+	 */
+	id: bigint;
 
-  /**
-   * @generated from field: greeter.v1.ToDoDetails item = 2;
-   */
-  item?: ToDoDetails;
+	/**
+	 * @generated from field: greeter.v1.ToDoDetails item = 2;
+	 */
+	item?: ToDoDetails;
 
-  /**
-   * @generated from field: google.protobuf.Timestamp created_at = 3;
-   */
-  createdAt?: Timestamp;
+	/**
+	 * @generated from field: google.protobuf.Timestamp created_at = 3;
+	 */
+	createdAt?: Timestamp;
 };
 
 /**
  * Describes the message greeter.v1.ToDoItem.
  * Use `create(ToDoItemSchema)` to create a new message.
  */
-export const ToDoItemSchema: GenMessage<ToDoItem> = /*@__PURE__*/
-  messageDesc(file_greeter, 1);
+export const ToDoItemSchema: GenMessage<ToDoItem> = /*@__PURE__*/ messageDesc(file_greeter, 1);
 
 /**
  * @generated from message greeter.v1.CreateRequest
  */
-export type CreateRequest = Message<"greeter.v1.CreateRequest"> & {
-  /**
-   * @generated from field: greeter.v1.ToDoDetails item = 1;
-   */
-  item?: ToDoDetails;
+export type CreateRequest = Message<'greeter.v1.CreateRequest'> & {
+	/**
+	 * @generated from field: greeter.v1.ToDoDetails item = 1;
+	 */
+	item?: ToDoDetails;
 };
 
 /**
  * Describes the message greeter.v1.CreateRequest.
  * Use `create(CreateRequestSchema)` to create a new message.
  */
-export const CreateRequestSchema: GenMessage<CreateRequest> = /*@__PURE__*/
-  messageDesc(file_greeter, 2);
+export const CreateRequestSchema: GenMessage<CreateRequest> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 2);
 
 /**
  * @generated from message greeter.v1.CreateResponse
  */
-export type CreateResponse = Message<"greeter.v1.CreateResponse"> & {
-  /**
-   * @generated from field: greeter.v1.ToDoItem item = 1;
-   */
-  item?: ToDoItem;
+export type CreateResponse = Message<'greeter.v1.CreateResponse'> & {
+	/**
+	 * @generated from field: greeter.v1.ToDoItem item = 1;
+	 */
+	item?: ToDoItem;
 };
 
 /**
  * Describes the message greeter.v1.CreateResponse.
  * Use `create(CreateResponseSchema)` to create a new message.
  */
-export const CreateResponseSchema: GenMessage<CreateResponse> = /*@__PURE__*/
-  messageDesc(file_greeter, 3);
+export const CreateResponseSchema: GenMessage<CreateResponse> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 3);
 
 /**
  * @generated from message greeter.v1.UpdateRequest
  */
-export type UpdateRequest = Message<"greeter.v1.UpdateRequest"> & {
-  /**
-   * @generated from field: greeter.v1.ToDoDetails item = 1;
-   */
-  item?: ToDoDetails;
+export type UpdateRequest = Message<'greeter.v1.UpdateRequest'> & {
+	/**
+	 * @generated from field: greeter.v1.ToDoDetails item = 1;
+	 */
+	item?: ToDoDetails;
 };
 
 /**
  * Describes the message greeter.v1.UpdateRequest.
  * Use `create(UpdateRequestSchema)` to create a new message.
  */
-export const UpdateRequestSchema: GenMessage<UpdateRequest> = /*@__PURE__*/
-  messageDesc(file_greeter, 4);
+export const UpdateRequestSchema: GenMessage<UpdateRequest> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 4);
 
 /**
  * @generated from message greeter.v1.UpdateResponse
  */
-export type UpdateResponse = Message<"greeter.v1.UpdateResponse"> & {
-  /**
-   * @generated from field: greeter.v1.ToDoItem item = 1;
-   */
-  item?: ToDoItem;
+export type UpdateResponse = Message<'greeter.v1.UpdateResponse'> & {
+	/**
+	 * @generated from field: greeter.v1.ToDoItem item = 1;
+	 */
+	item?: ToDoItem;
 };
 
 /**
  * Describes the message greeter.v1.UpdateResponse.
  * Use `create(UpdateResponseSchema)` to create a new message.
  */
-export const UpdateResponseSchema: GenMessage<UpdateResponse> = /*@__PURE__*/
-  messageDesc(file_greeter, 5);
+export const UpdateResponseSchema: GenMessage<UpdateResponse> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 5);
 
 /**
  * @generated from message greeter.v1.DeleteRequest
  */
-export type DeleteRequest = Message<"greeter.v1.DeleteRequest"> & {
-  /**
-   * @generated from field: int64 id = 1;
-   */
-  id: bigint;
+export type DeleteRequest = Message<'greeter.v1.DeleteRequest'> & {
+	/**
+	 * @generated from field: int64 id = 1;
+	 */
+	id: bigint;
 };
 
 /**
  * Describes the message greeter.v1.DeleteRequest.
  * Use `create(DeleteRequestSchema)` to create a new message.
  */
-export const DeleteRequestSchema: GenMessage<DeleteRequest> = /*@__PURE__*/
-  messageDesc(file_greeter, 6);
+export const DeleteRequestSchema: GenMessage<DeleteRequest> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 6);
 
 /**
  * @generated from message greeter.v1.GetOneRequest
  */
-export type GetOneRequest = Message<"greeter.v1.GetOneRequest"> & {
-  /**
-   * @generated from field: int64 id = 1;
-   */
-  id: bigint;
+export type GetOneRequest = Message<'greeter.v1.GetOneRequest'> & {
+	/**
+	 * @generated from field: int64 id = 1;
+	 */
+	id: bigint;
 };
 
 /**
  * Describes the message greeter.v1.GetOneRequest.
  * Use `create(GetOneRequestSchema)` to create a new message.
  */
-export const GetOneRequestSchema: GenMessage<GetOneRequest> = /*@__PURE__*/
-  messageDesc(file_greeter, 7);
+export const GetOneRequestSchema: GenMessage<GetOneRequest> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 7);
 
 /**
  * @generated from message greeter.v1.GetOneResponse
  */
-export type GetOneResponse = Message<"greeter.v1.GetOneResponse"> & {
-  /**
-   * @generated from field: greeter.v1.ToDoItem item = 1;
-   */
-  item?: ToDoItem;
+export type GetOneResponse = Message<'greeter.v1.GetOneResponse'> & {
+	/**
+	 * @generated from field: greeter.v1.ToDoItem item = 1;
+	 */
+	item?: ToDoItem;
 };
 
 /**
  * Describes the message greeter.v1.GetOneResponse.
  * Use `create(GetOneResponseSchema)` to create a new message.
  */
-export const GetOneResponseSchema: GenMessage<GetOneResponse> = /*@__PURE__*/
-  messageDesc(file_greeter, 8);
+export const GetOneResponseSchema: GenMessage<GetOneResponse> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 8);
 
 /**
  * @generated from message greeter.v1.GetAllResponse
  */
-export type GetAllResponse = Message<"greeter.v1.GetAllResponse"> & {
-  /**
-   * @generated from field: repeated greeter.v1.ToDoItem items = 1;
-   */
-  items: ToDoItem[];
+export type GetAllResponse = Message<'greeter.v1.GetAllResponse'> & {
+	/**
+	 * @generated from field: repeated greeter.v1.ToDoItem items = 1;
+	 */
+	items: ToDoItem[];
 };
 
 /**
  * Describes the message greeter.v1.GetAllResponse.
  * Use `create(GetAllResponseSchema)` to create a new message.
  */
-export const GetAllResponseSchema: GenMessage<GetAllResponse> = /*@__PURE__*/
-  messageDesc(file_greeter, 9);
+export const GetAllResponseSchema: GenMessage<GetAllResponse> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 9);
+
+/**
+ * @generated from message greeter.v1.UpdateStatusRequest
+ */
+export type UpdateStatusRequest = Message<'greeter.v1.UpdateStatusRequest'> & {
+	/**
+	 * @generated from field: int64 id = 1;
+	 */
+	id: bigint;
+
+	/**
+	 * @generated from field: greeter.v1.Status status = 2;
+	 */
+	status: Status;
+};
+
+/**
+ * Describes the message greeter.v1.UpdateStatusRequest.
+ * Use `create(UpdateStatusRequestSchema)` to create a new message.
+ */
+export const UpdateStatusRequestSchema: GenMessage<UpdateStatusRequest> =
+	/*@__PURE__*/
+	messageDesc(file_greeter, 10);
 
 /**
  * @generated from enum greeter.v1.Status
  */
 export enum Status {
-  /**
-   * @generated from enum value: STATUS_UNSPECIFIED = 0;
-   */
-  STATUS_UNSPECIFIED = 0,
+	/**
+	 * @generated from enum value: STATUS_UNSPECIFIED = 0;
+	 */
+	STATUS_UNSPECIFIED = 0,
 
-  /**
-   * @generated from enum value: PENDING = 1;
-   */
-  PENDING = 1,
+	/**
+	 * @generated from enum value: PENDING = 1;
+	 */
+	PENDING = 1,
 
-  /**
-   * @generated from enum value: COMPLETED = 2;
-   */
-  COMPLETED = 2,
+	/**
+	 * @generated from enum value: COMPLETED = 2;
+	 */
+	COMPLETED = 2
 }
 
 /**
  * Describes the enum greeter.v1.Status.
  */
-export const StatusSchema: GenEnum<Status> = /*@__PURE__*/
-  enumDesc(file_greeter, 0);
+export const StatusSchema: GenEnum<Status> = /*@__PURE__*/ enumDesc(file_greeter, 0);
 
 /**
  * @generated from service greeter.v1.ToDoService
  */
 export const ToDoService: GenService<{
-  /**
-   * @generated from rpc greeter.v1.ToDoService.Create
-   */
-  create: {
-    methodKind: "unary";
-    input: typeof CreateRequestSchema;
-    output: typeof CreateResponseSchema;
-  },
-  /**
-   * @generated from rpc greeter.v1.ToDoService.Update
-   */
-  update: {
-    methodKind: "unary";
-    input: typeof UpdateRequestSchema;
-    output: typeof UpdateResponseSchema;
-  },
-  /**
-   * @generated from rpc greeter.v1.ToDoService.Delete
-   */
-  delete: {
-    methodKind: "unary";
-    input: typeof DeleteRequestSchema;
-    output: typeof EmptySchema;
-  },
-  /**
-   * @generated from rpc greeter.v1.ToDoService.GetOne
-   */
-  getOne: {
-    methodKind: "unary";
-    input: typeof GetOneRequestSchema;
-    output: typeof GetOneResponseSchema;
-  },
-  /**
-   * @generated from rpc greeter.v1.ToDoService.GetAll
-   */
-  getAll: {
-    methodKind: "unary";
-    input: typeof EmptySchema;
-    output: typeof GetAllResponseSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_greeter, 0);
-
+	/**
+	 * @generated from rpc greeter.v1.ToDoService.Create
+	 */
+	create: {
+		methodKind: 'unary';
+		input: typeof CreateRequestSchema;
+		output: typeof CreateResponseSchema;
+	};
+	/**
+	 * @generated from rpc greeter.v1.ToDoService.Update
+	 */
+	update: {
+		methodKind: 'unary';
+		input: typeof UpdateRequestSchema;
+		output: typeof UpdateResponseSchema;
+	};
+	/**
+	 * @generated from rpc greeter.v1.ToDoService.Delete
+	 */
+	delete: {
+		methodKind: 'unary';
+		input: typeof DeleteRequestSchema;
+		output: typeof EmptySchema;
+	};
+	/**
+	 * @generated from rpc greeter.v1.ToDoService.GetOne
+	 */
+	getOne: {
+		methodKind: 'unary';
+		input: typeof GetOneRequestSchema;
+		output: typeof GetOneResponseSchema;
+	};
+	/**
+	 * @generated from rpc greeter.v1.ToDoService.GetAll
+	 */
+	getAll: {
+		methodKind: 'unary';
+		input: typeof EmptySchema;
+		output: typeof GetAllResponseSchema;
+	};
+	/**
+	 * @generated from rpc greeter.v1.ToDoService.UpdateStatus
+	 */
+	updateStatus: {
+		methodKind: 'unary';
+		input: typeof UpdateStatusRequestSchema;
+		output: typeof EmptySchema;
+	};
+}> = /*@__PURE__*/ serviceDesc(file_greeter, 0);

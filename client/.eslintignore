@@ -1,0 +1,6 @@
+src/lib/gen/
+src/gen/
+.svelte-kit/
+build/
+dist/
+node_modules/
