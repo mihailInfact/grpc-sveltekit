@@ -1,6 +1,7 @@
 version: '3'
 
 tasks:
-  gen-proto:
+  gen-client:
+    desc: Generates client from protobuf
     cmds:
       - npx buf generate ../proto/greeter.proto

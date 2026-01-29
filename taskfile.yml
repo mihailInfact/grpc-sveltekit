@@ -9,7 +9,7 @@ tasks:
       - export PATH="$PATH:$(go env GOPATH)/bin"
   gen-server:
     cmds:
-      - |
-        protoc --go_out=./server/pkg/greeter --go_opt=paths=source_relative \
-        --go-grpc_out=./server/pkg/greeter --go-grpc_opt=paths=source_relative \
-        proto/greeter.proto
+    - buf generate --template buf.gen.server.yaml ./proto/greeter.proto
+  gen-client:
+    cmds:
+    - buf generate --template buf.gen.client.yaml ./proto/greeter.proto

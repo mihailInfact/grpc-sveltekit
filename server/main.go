@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"greeter/internal/store"
-	pb "greeter/pkg/greeter/proto"
+	pb "greeter/pkg/greeter"
 	"log"
 	"net"
 	"time"
@@ -11,12 +11,60 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
+
+//go:generate sh -c "cd .. && buf generate --path proto/greeter.proto"
 
 type server struct {
 	pb.UnimplementedToDoServiceServer
 	Store *store.Store
+}
+
+func (s *server) GetAll(ctx context.Context, _ *emptypb.Empty) (*pb.GetAllResponse, error) {
+	log.Println("fetching all todo items")
+
+	items := make([]*pb.ToDoItem, 0)
+
+	rows, err := s.Store.QueryContext(ctx,
+		"SELECT id, title, description, status, created_at FROM todos")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var id int64
+		var title, description string
+		var status int32
+		var createdAt time.Time
+
+		err := rows.Scan(&id, &title, &description, &status, &createdAt)
+		if err != nil {
+			log.Printf("Failed to scan row: %v", err)
+			continue
+		}
+
+		item := &pb.ToDoItem{
+			Id: id,
+			Item: &pb.ToDoDetails{
+				Title:       title,
+				Description: description,
+				Status:      pb.Status(status),
+			},
+			CreatedAt: timestamppb.New(createdAt),
+		}
+		items = append(items, item)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return &pb.GetAllResponse{
+		Items: items,
+	}, nil
 }
 
 func (s *server) Create(ctx context.Context, req *pb.CreateRequest) (*pb.CreateResponse, error) {
@@ -24,7 +72,7 @@ func (s *server) Create(ctx context.Context, req *pb.CreateRequest) (*pb.CreateR
 
 	log.Printf("creating item: %+v\n", todoItem)
 
-	var id string
+	var id int64
 	var createdAt time.Time
 
 	err := s.Store.QueryRowContext(ctx,
@@ -41,13 +89,15 @@ func (s *server) Create(ctx context.Context, req *pb.CreateRequest) (*pb.CreateR
 
 	// Implement the logic to create a new todo item
 	return &pb.CreateResponse{
-		Id: id,
 		Item: &pb.ToDoItem{
-			Title:       todoItem.GetTitle(),
-			Description: todoItem.GetDescription(),
-			Status:      todoItem.GetStatus(),
+			Id: id,
+			Item: &pb.ToDoDetails{
+				Title:       todoItem.GetTitle(),
+				Description: todoItem.GetDescription(),
+				Status:      todoItem.GetStatus(),
+			},
+			CreatedAt: timestamppb.New(createdAt),
 		},
-		CreatedAt: timestamppb.New(createdAt),
 	}, nil
 }
 

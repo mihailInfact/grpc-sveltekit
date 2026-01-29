@@ -1,11 +1,16 @@
 syntax = "proto3";
 package greeter.v1;
-option go_package = "server/pkg/greeter";
+option go_package = "greeter/server/pkg/greeter/proto";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 service ToDoService {
   rpc Create (CreateRequest) returns (CreateResponse);
+  rpc Update (UpdateRequest) returns (UpdateResponse);
+  rpc Delete (DeleteRequest) returns (google.protobuf.Empty);
+  rpc GetOne (GetOneRequest) returns (GetOneResponse);
+  rpc GetAll (google.protobuf.Empty) returns (GetAllResponse);
 }
 
 enum Status {
@@ -14,18 +19,46 @@ enum Status {
   COMPLETED = 2;
 }
 
-message ToDoItem {
+message ToDoDetails {
   string title = 2;
   string description = 3;
   Status status = 4;
 }
 
+message ToDoItem {
+  int64 id = 1;
+  ToDoDetails item = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
+
 message CreateRequest {
-  ToDoItem item = 1;
+  ToDoDetails item = 1;
 }
 
 message CreateResponse {
-  string id = 1;
-  ToDoItem item = 2;
-  google.protobuf.Timestamp created_at = 3;
+  ToDoItem item = 1;
+}
+
+message UpdateRequest {
+  ToDoDetails item = 1;
+}
+
+message UpdateResponse {
+  ToDoItem item = 1;
+}
+
+message DeleteRequest {
+  int64 id = 1;
+}
+
+message GetOneRequest {
+  int64 id = 1;
+}
+
+message GetOneResponse {
+  ToDoItem item = 1;
+}
+
+message GetAllResponse {
+  repeated ToDoItem items = 1;
 }

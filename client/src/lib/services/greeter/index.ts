@@ -1,6 +1,6 @@
 import { createClient } from "@connectrpc/connect";
 import { createGrpcTransport } from "@connectrpc/connect-node"; // Use node for SSR
-import { Greeter } from "$lib/gen/greeter_pb"; // Generated service definition
+import { ToDoService } from "$lib/gen/greeter_pb"; // Generated service definition
 
 // This configuration runs once when the app starts (Singleton pattern)
 const transport = createGrpcTransport({
@@ -8,4 +8,4 @@ const transport = createGrpcTransport({
 });
 
 // Export the initialized client
-export const client = createClient(Greeter, transport);
+export const client = createClient(ToDoService, transport);
