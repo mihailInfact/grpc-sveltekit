@@ -7,6 +7,7 @@ import (
 	"greeter/pkg/greeter/greeterconnect"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"connectrpc.com/connect"
@@ -36,6 +37,27 @@ func (s *server) Update(ctx context.Context, req *connect.Request[pb.UpdateReque
 
 func (s *server) GetAll(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[pb.GetAllResponse], error) {
 	log.Println("fetching all todo items")
+
+	connectVersion := req.Header().Get("Connect-Protocol-Version")
+
+	// 2. Check the Content-Type to distinguish between gRPC and gRPC-Web
+	contentType := req.Header().Get("Content-Type")
+
+	if connectVersion != "" {
+		log.Printf("Protocol Used: Connect (Version %s)", connectVersion)
+	} else if contentType == "application/grpc" {
+		log.Println("Protocol Used: Standard gRPC")
+	} else if contentType == "application/grpc-web" {
+		log.Println("Protocol Used: gRPC-Web")
+	} else {
+		log.Printf("Protocol Used: Unknown (Content-Type: %s)", contentType)
+	}
+
+	if strings.HasPrefix(contentType, "application/grpc") {
+		log.Println("Protocol Used: Standard gRPC (Binary)")
+	} else if strings.Contains(contentType, "application/connect") {
+		log.Println("Protocol Used: Connect Protocol")
+	}
 
 	items := make([]*pb.ToDoItem, 0)
 
