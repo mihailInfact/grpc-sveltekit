@@ -1,4 +1,4 @@
-import { client } from '$lib/services/greeter/index';
+import { client } from '$lib/services/greeter/grpcClient.server';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { Status } from '$lib/gen/greeter_pb';

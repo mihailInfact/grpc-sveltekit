@@ -2,16 +2,17 @@ package main
 
 import (
 	"context"
+	"greeter/internal/middleware"
 	"greeter/internal/store"
 	pb "greeter/pkg/greeter"
 	"greeter/pkg/greeter/greeterconnect"
 	"log"
 	"net/http"
-	"strings"
 	"time"
 
 	"connectrpc.com/connect"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rs/cors"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"google.golang.org/grpc/codes"
@@ -37,27 +38,6 @@ func (s *server) Update(ctx context.Context, req *connect.Request[pb.UpdateReque
 
 func (s *server) GetAll(ctx context.Context, req *connect.Request[emptypb.Empty]) (*connect.Response[pb.GetAllResponse], error) {
 	log.Println("fetching all todo items")
-
-	connectVersion := req.Header().Get("Connect-Protocol-Version")
-
-	// 2. Check the Content-Type to distinguish between gRPC and gRPC-Web
-	contentType := req.Header().Get("Content-Type")
-
-	if connectVersion != "" {
-		log.Printf("Protocol Used: Connect (Version %s)", connectVersion)
-	} else if contentType == "application/grpc" {
-		log.Println("Protocol Used: Standard gRPC")
-	} else if contentType == "application/grpc-web" {
-		log.Println("Protocol Used: gRPC-Web")
-	} else {
-		log.Printf("Protocol Used: Unknown (Content-Type: %s)", contentType)
-	}
-
-	if strings.HasPrefix(contentType, "application/grpc") {
-		log.Println("Protocol Used: Standard gRPC (Binary)")
-	} else if strings.Contains(contentType, "application/connect") {
-		log.Println("Protocol Used: Connect Protocol")
-	}
 
 	items := make([]*pb.ToDoItem, 0)
 
@@ -168,18 +148,19 @@ func main() {
 
 	srv := &server{Store: db}
 	mux := http.NewServeMux()
+	wrappedMux := middleware.Logger(mux)
 	path, handler := greeterconnect.NewToDoServiceHandler(srv)
 	mux.Handle(path, handler)
 
-	log.Printf("Connect server listening at :50051")
-	if err != nil {
-		log.Fatalf("Failed to listen: %v", err)
-	}
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:5173"}, // Svelte port
+		AllowedMethods: []string{"POST", "OPTIONS"},
+		AllowedHeaders: []string{"Content-Type", "Connect-Protocol-Version"},
+	}).Handler(wrappedMux)
 
-	err = http.ListenAndServe(
-		"localhost:50051",
-		h2c.NewHandler(mux, &http2.Server{}),
-	)
+	log.Printf("Connect server listening at :50051")
+
+	err = http.ListenAndServe(":50051", h2c.NewHandler(corsHandler, &http2.Server{}))
 	if err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

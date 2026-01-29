@@ -2,7 +2,9 @@
 	import { Status, type ToDoItem } from '$lib/gen/greeter_pb';
 	import type { PageProps } from './$types';
 	import { enhance } from '$app/forms';
-
+	import { client } from "$lib/services/greeter/grpcClient.client";
+	import { invalidateAll } from '$app/navigation';
+	
 	let { data }: PageProps = $props();
 
 	// Local state for managing todos
@@ -47,6 +49,26 @@
 	function cancelEdit() {
 		editingId = null;
 		editingTitle = '';
+	}
+
+	async function toggleStatus(id: bigint, status: boolean) {
+		const newStatus = !status
+            ? Status.PENDING 
+            : Status.COMPLETED;
+
+		try {
+            // 1. Direct gRPC-Web call from Browser to Go
+            await client.updateStatus({
+                id,
+                status: newStatus
+            });
+
+            // 2. Trigger SvelteKit to re-run load() so the UI syncs
+            await invalidateAll();
+        } catch (err) {
+            console.error("Failed to update status directly:", err);
+            // Optional: Revert checkbox state or show toast
+        }
 	}
 
 	// Stats
@@ -192,30 +214,12 @@
 							{:else}
 								<!-- View Mode -->
 								<div class="flex items-center gap-3">
-									<form
-										method="POST"
-										action="?/updateStatus"
-										use:enhance={() => {
-											return async ({ update }) => {
-												await update();
-											};
-										}}
-									>
-										<input type="hidden" name="id" value={todo.id.toString()} />
-										<input
-											type="hidden"
-											name="status"
-											value={todo.item?.status === Status.COMPLETED
-												? Status.PENDING
-												: Status.COMPLETED}
-										/>
-										<input
-											type="checkbox"
-											checked={todo.item?.status === Status['COMPLETED']}
-											onchange={(e) => e.currentTarget.form?.requestSubmit()}
-											class="h-5 w-5 cursor-pointer rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-										/>
-									</form>
+									<input
+										type="checkbox"
+										checked={todo.item?.status === Status.COMPLETED}
+										onchange={(e) => toggleStatus(todo.id, e?.currentTarget?.checked)}
+										class="h-5 w-5 cursor-pointer rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+									/>
 									<span
 										class={`flex-1 text-lg ${
 											todo.item?.status === Status['COMPLETED']
